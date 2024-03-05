@@ -21,6 +21,7 @@ class OutputFilterPipeline implements OutputFilterInterface
         foreach ($this->filters as $filter) {
             $output = $filter($output, $presentation);
         }
+
         return $output;
     }
 }

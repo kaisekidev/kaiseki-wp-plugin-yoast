@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Kaiseki\WordPress\Yoast\Metadata;
 
+use InvalidArgumentException;
 use Kaiseki\Config\Config;
 use Kaiseki\WordPress\Yoast\OutputFilter\OutputFilterInterface;
 use Kaiseki\WordPress\Yoast\OutputFilter\OutputFilterPipeline;
@@ -20,9 +21,10 @@ class RobotsFilterFactory
 {
     public function __invoke(ContainerInterface $container): RobotsFilter
     {
-        $config = Config::get($container);
+        $config = Config::fromContainer($container);
         /** @var OutputFilterTypes $filter */
-        $filter = $config->get('yoast/robots', []);
+        $filter = $config->get('yoast.robots');
+
         return new RobotsFilter(
             $this->getConfigs($filter, $container),
         );
@@ -43,8 +45,9 @@ class RobotsFilterFactory
             return Config::initClass($container, $filter);
         }
         if (!is_array($filter)) {
-            throw new \InvalidArgumentException('Invalid filter configuration');
+            throw new InvalidArgumentException('Invalid filter configuration');
         }
+
         return new OutputFilterPipeline(...Config::initClassMap($container, $filter));
     }
 }

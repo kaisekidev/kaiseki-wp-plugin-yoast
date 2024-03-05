@@ -19,7 +19,8 @@ final class NoFollow implements OutputFilterInterface
         if (!is_string($output)) {
             return $output;
         }
-        $values = array_filter(explode(', ', $output), fn (string $value) => $value !== 'follow');
+        $values = array_filter(explode(', ', $output), fn(string $value) => $value !== 'follow');
+
         return implode(', ', ['nofollow', ...$values]);
     }
 }

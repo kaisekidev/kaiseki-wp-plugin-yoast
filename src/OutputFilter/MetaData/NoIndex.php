@@ -19,7 +19,8 @@ final class NoIndex implements OutputFilterInterface
         if (!is_string($output)) {
             return $output;
         }
-        $values = array_filter(explode(', ', $output), fn (string $value) => $value !== 'index');
+        $values = array_filter(explode(', ', $output), fn(string $value) => $value !== 'index');
+
         return implode(', ', ['noindex', ...$values]);
     }
 }
